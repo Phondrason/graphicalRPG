@@ -13,6 +13,11 @@ public class Game implements Runnable
 	public static final int SCREEN_HEIGHT = 640;
 	
 	public Screen screen;
+	Player player;
+	Level level;
+	
+	BufferStrategy bs;
+	Graphics g;
 	
 	public static void main(String args[])
 	{
@@ -20,20 +25,21 @@ public class Game implements Runnable
 		new Thread(game).start();
 	}
 	
-	Level level;
+	public boolean running = true;
 	
 	@Override
 	public void run() 
 	{
 		long timestamp;
 		long oldTimestamp;
-		BufferedImage playerImages;
 		screen = new Screen("Game", SCREEN_WIDTH, SCREEN_HEIGHT);
 		
 		TileSet tileSet = new TileSet("/tiles/rpg.png", 12, 12);
 		level = new Level("/level/Level1.txt", tileSet);
+		SpriteSheet playerSprite = new SpriteSheet("/sprites/player.png", 3, 4, 64, 64);
+		player = new Player(320, 320, playerSprite.getSpriteElement(1, 0));
 		
-		while (true)
+		while (running)
 		{
 			oldTimestamp = System.currentTimeMillis();
 			update();
@@ -62,18 +68,8 @@ public class Game implements Runnable
 	
 	void update()
 	{
-		try
-		{
-			Thread.sleep(15);
-		}
-		catch (InterruptedException e)
-		{
-			e.printStackTrace();
-		}
+
 	}
-	
-	BufferStrategy bs;
-	Graphics g;
 	
 	void render()
 	{
@@ -87,6 +83,7 @@ public class Game implements Runnable
 		g = bs.getDrawGraphics();
 		g.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 		level.renderMap(g);
+		player.render(g);
 		bs.show();
 		g.dispose();
 	}
