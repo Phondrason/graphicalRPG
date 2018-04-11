@@ -2,14 +2,14 @@ package gamefiles;
 
 import java.awt.Graphics;
 
-public class Level 
+public class Level
 {
 	private TileSet[] ts;
 	private int sizeX, sizeY;
 	private int[][][] tileMap;
-	private Game game;
+	private GameState game;
 	
-	public Level(Game game, String[] paths, TileSet[] ts)
+	public Level(GameState game, String[] paths, TileSet[] ts)
 	{
 		this.game = game;
 		this.ts = ts;

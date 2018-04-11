@@ -5,10 +5,10 @@ import java.awt.Graphics;
 public class AnimEntity extends Entity 
 {
 	protected SpriteSheet spriteSheet;
-	protected Game game;
+	protected GameState game;
 	protected boolean pause;
 	
-	public AnimEntity(Game game, String name, SpriteSheet sheet, int x, int y, int width, int height)
+	public AnimEntity(GameState game, String name, SpriteSheet sheet, int x, int y, int width, int height)
 	{
 		super(name, sheet.getSpriteElement(0, 0), x, y, width, height);
 		this.spriteSheet = sheet;

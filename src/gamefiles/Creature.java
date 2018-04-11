@@ -3,7 +3,7 @@ package gamefiles;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 
-public abstract class Creature extends AnimEntity 
+public abstract class Creature extends AnimEntity
 {
 	public static final int DEFAULT_HEALTH = 10;
 	public static final int DEFAULT_SPEED = 3;
@@ -19,7 +19,7 @@ public abstract class Creature extends AnimEntity
 	int xPos = 0;
 	BufferedImage image;
 	
-	public Creature(Game game, String name, Level level, SpriteSheet spriteSheet, int x, int y, int width, int height, int health, int speed)
+	public Creature(GameState game, String name, Level level, SpriteSheet spriteSheet, int x, int y, int width, int height, int health, int speed)
 	{
 		super(game, name, spriteSheet, x, y, width, height);
 		this.spriteSheet = spriteSheet;
