@@ -1,9 +1,9 @@
 package gamefiles;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public class Utils 
 {
@@ -24,20 +24,12 @@ public class Utils
 	{
 		StringBuilder builder = new StringBuilder();
 		
-		FileReader file = null;
-		try
-		{
-			file = new FileReader(Utils.class.getClass().getResource(path).getFile());
-		}
-		catch (FileNotFoundException e1)
-		{
-			e1.printStackTrace();
-		}
-		if (file != null)
+		InputStream in = Utils.class.getClass().getResourceAsStream(path);
+		if (in != null)
 		{
 			try
 			{
-				BufferedReader br = new BufferedReader(file);
+				BufferedReader br = new BufferedReader(new InputStreamReader(in));
 				String line;
 				while ((line = br.readLine()) != null)
 				{

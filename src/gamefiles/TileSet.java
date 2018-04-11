@@ -13,6 +13,7 @@ public class TileSet
 	
 	private BufferedImage[] tiles;
 	
+	@SuppressWarnings("unused")
 	private int sizeX, sizeY;
 	
 	@SuppressWarnings("rawtypes")
@@ -27,7 +28,7 @@ public class TileSet
 		BufferedImage tileSet;
 		try
 		{
-			tileSet = ImageIO.read(TileSet.class.getResource(path));
+			tileSet = ImageIO.read(TileSet.class.getResourceAsStream(path));
 		}
 		catch (IOException e)
 		{

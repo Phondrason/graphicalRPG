@@ -10,7 +10,9 @@ public class Screen
 	private JFrame frame;
 	private Canvas canvas;
 	
+	@SuppressWarnings("unused")
 	private String title;
+	@SuppressWarnings("unused")
 	private int width, height;
 	
 	public Screen(String title, int width, int height)
