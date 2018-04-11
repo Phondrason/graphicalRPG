@@ -23,6 +23,26 @@ public abstract class Entity
 		this.height = height;
 	}
 	
+	public int getEntityX()
+	{
+		return entityX;
+	}
+	
+	public int getEntityY()
+	{
+		return entityY;
+	}
+	
+	public int getWidth()
+	{
+		return width;
+	}
+	
+	public int getHeight()
+	{
+		return height;
+	}
+	
 	protected abstract void update();
 	protected void render(Graphics g)
 	{

@@ -13,6 +13,7 @@ public class Game implements Runnable
 	public static final int SCREEN_HEIGHT = 640;
 	
 	public Screen screen;
+	private Camera gameCamera;
 	Player player;
 	Level level;
 	KeyManager keyManager;
@@ -28,6 +29,11 @@ public class Game implements Runnable
 	
 	public boolean running = true;
 	
+	public Camera getGameCamera()
+	{
+		return gameCamera;
+	}
+	
 	@Override
 	public void run() 
 	{
@@ -39,9 +45,10 @@ public class Game implements Runnable
 		screen.getFrame().addKeyListener(keyManager);
 		
 		TileSet tileSet = new TileSet("/tiles/rpg.png", 12, 12);
-		level = new Level("/level/Level1.txt", tileSet);
+		level = new Level(this, "/level/Level1.txt", tileSet);
 		SpriteSheet playerSprite = new SpriteSheet("/sprites/player.png", 3, 4, 64, 64);
-		player = new Player(320, 320, playerSprite);
+		player = new Player(this, 320, 320, playerSprite);
+		gameCamera = new Camera(level.getSizeX(), level.getSizeY());
 		
 		while (running)
 		{

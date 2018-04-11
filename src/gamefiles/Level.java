@@ -7,9 +7,11 @@ public class Level
 	private TileSet ts;
 	private int sizeX, sizeY;
 	private int[][] tileMap;
+	private Game game;
 	
-	public Level(String path, TileSet ts)
+	public Level(Game game, String path, TileSet ts)
 	{
+		this.game = game;
 		this.ts = ts;
 		String file = Utils.loadFileAsString(path);
 		String[] tokens = file.split("\\s+");
@@ -26,13 +28,24 @@ public class Level
 		}
 	}
 	
+	public int getSizeX()
+	{
+		return sizeX;
+	}
+	
+	public int getSizeY()
+	{
+		return sizeY;
+	}
+	
 	public void renderMap(Graphics g)
 	{
 		for (int tileY = 0; tileY < sizeY; tileY++)
 		{
 			for (int tileX = 0; tileX < sizeX; tileX++)
 			{
-				ts.renderTile(g, tileMap[tileX][tileY], tileX * TileSet.TILEWIDTH, tileY * TileSet.TILEHEIGHT);
+				ts.renderTile(g, tileMap[tileX][tileY], tileX * TileSet.TILEWIDTH - game.getGameCamera().getxOffset(),
+						tileY * TileSet.TILEHEIGHT - game.getGameCamera().getyOffset());
 			}
 		}
 	}
