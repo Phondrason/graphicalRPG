@@ -52,4 +52,16 @@ public class Utils
 		}
 		return builder.toString();
 	}
+	
+	public static boolean containsBlock(int[][] touched) 
+	{
+		for(int j = 0; j < touched.length; j++) 
+		{
+			for(int i = 0; i < touched[j].length; i++) 
+		    {
+				if(touched[j][i] > 65535) return true;
+		    }
+		}
+		return false;
+	}
 }

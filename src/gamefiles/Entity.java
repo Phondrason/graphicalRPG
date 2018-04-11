@@ -3,7 +3,7 @@ package gamefiles;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
-public abstract class Entity 
+public abstract class Entity
 {
 	public static final int DEFAULT_WIDTH = 64;
 	public static final int DEFAULT_HEIGHT= 64;

@@ -3,6 +3,7 @@ package gamefiles;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.HashSet;
 
 import javax.imageio.ImageIO;
 
@@ -12,8 +13,16 @@ public class TileSet
 	
 	private BufferedImage[] tiles;
 	
-	public TileSet(String path, int sizeX, int sizeY)
+	private int sizeX, sizeY;
+	
+	@SuppressWarnings("rawtypes")
+	public HashSet hs;
+	
+	public TileSet(String path, int sizeX, int sizeY, int border, @SuppressWarnings("rawtypes") HashSet hs)
 	{
+		this.hs = hs;
+		this.sizeX = sizeX;
+		this.sizeY = sizeY;
 		tiles = new BufferedImage[sizeX * sizeY];
 		BufferedImage tileSet;
 		try
@@ -30,7 +39,7 @@ public class TileSet
 		{
 			for (int x = 0; x < sizeX; x++)
 			{
-				tiles[i++] = tileSet.getSubimage(x * (TILEWIDTH + 3), y * (TILEHEIGHT + 3), TILEWIDTH, TILEHEIGHT);
+				tiles[i++] = tileSet.getSubimage(x * (TILEWIDTH + border), y * (TILEHEIGHT + border), TILEWIDTH, TILEHEIGHT);
 			}
 		}
 	}

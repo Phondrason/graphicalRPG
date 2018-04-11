@@ -5,12 +5,14 @@ import java.awt.Graphics;
 public class Player extends Creature 
 {
 	public static final int DEFAULT_HEALTH = 100;
-	public static final int DEFAULT_SPEED = 1;
+	public static final int DEFAULT_SPEED = 4;
+	public static final int MARGIN_HORIZ = 14;
+	public static final int MARGIN_VERT = 2;
 	private Game game;
 	
-	public Player(Game game, int x, int y, SpriteSheet playerSprite)
+	public Player(Game game, Level level, int x, int y, SpriteSheet playerSprite)
 	{
-		super("Player", playerSprite, x, y, Entity.DEFAULT_WIDTH, Entity.DEFAULT_HEIGHT, Player.DEFAULT_HEALTH, Player.DEFAULT_SPEED);
+		super(game, "Player", level, playerSprite, x, y, Entity.DEFAULT_WIDTH, Entity.DEFAULT_HEIGHT, Player.DEFAULT_HEALTH, Player.DEFAULT_SPEED);
 		this.game = game;
 	}
 	
@@ -18,6 +20,7 @@ public class Player extends Creature
 	protected void update() 
 	{
 		move();
+		super.update();
 		game.getGameCamera().centerOnEntity(this);
 	}
 	

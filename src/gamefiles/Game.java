@@ -4,6 +4,8 @@ import java.awt.Canvas;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.image.BufferStrategy;
+import java.util.Arrays;
+import java.util.HashSet;
 
 public class Game implements Runnable 
 {
@@ -15,6 +17,7 @@ public class Game implements Runnable
 	public Screen screen;
 	private Camera gameCamera;
 	Player player;
+	AnimEntity fire;
 	Level level;
 	KeyManager keyManager;
 	
@@ -34,6 +37,7 @@ public class Game implements Runnable
 		return gameCamera;
 	}
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public void run() 
 	{
@@ -44,10 +48,25 @@ public class Game implements Runnable
 		keyManager = new KeyManager();
 		screen.getFrame().addKeyListener(keyManager);
 		
-		TileSet tileSet = new TileSet("/tiles/rpg.png", 12, 12);
-		level = new Level(this, "/level/Level1.txt", tileSet);
+		TileSet[] tileSet = new TileSet[3];
+		HashSet hs = new HashSet(Arrays.asList(0, 1, 2, 12, 14, 24, 25, 26));
+		tileSet[0] = new TileSet("/tiles/rpg.png", 12 , 12, 3, hs);
+		hs = new HashSet(Arrays.asList(160, 161));
+		tileSet[1] = new TileSet("/tiles/tileb.png", 16, 16, 0, hs);
+		tileSet[2] = new TileSet("/tiles/tileb.png", 16, 16, 0, hs);
+		
+		String[] paths = new String[3];
+		paths[0] = "/level/Level1.txt";
+		paths[1] = "/level/Level1a.txt";
+		paths[2] = "/level/Level1b.txt";
+		level = new Level(this, paths, tileSet);
+		
 		SpriteSheet playerSprite = new SpriteSheet("/sprites/player.png", 3, 4, 64, 64);
-		player = new Player(this, 320, 320, playerSprite);
+		player = new Player(this, level, 320, 320, playerSprite);
+		
+		SpriteSheet fireSprite = new SpriteSheet("/sprites/fire_big.png", 3, 1, 64, 128);
+		fire = new AnimEntity(this, "Fire", fireSprite, 280, 280, 64, 128);
+		
 		gameCamera = new Camera(level.getSizeX(), level.getSizeY());
 		
 		while (running)
@@ -80,6 +99,7 @@ public class Game implements Runnable
 		keyManager.update();
 		player.setMove(getInput());
 		player.update();
+		fire.update();
 	}
 	
 	void render()
@@ -93,8 +113,10 @@ public class Game implements Runnable
 		}
 		g = bs.getDrawGraphics();
 		g.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-		level.renderMap(g);
+		level.render(g);
 		player.render(g);
+		fire.render(g);
+		level.renderZ(g);
 		bs.show();
 		g.dispose();
 	}

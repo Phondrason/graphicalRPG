@@ -3,7 +3,7 @@ package gamefiles;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 
-public abstract class Creature extends Entity 
+public abstract class Creature extends AnimEntity 
 {
 	public static final int DEFAULT_HEALTH = 10;
 	public static final int DEFAULT_SPEED = 3;
@@ -11,7 +11,7 @@ public abstract class Creature extends Entity
 	protected int health;
 	protected int speed;
 	protected int xMove, yMove;
-	protected SpriteSheet spriteSheet;
+	private Level level;
 	
 	int prevDirection;
 	int op = 1;
@@ -19,10 +19,11 @@ public abstract class Creature extends Entity
 	int xPos = 0;
 	BufferedImage image;
 	
-	public Creature(String name, SpriteSheet spriteSheet, int x, int y, int width, int height, int health, int speed)
+	public Creature(Game game, String name, Level level, SpriteSheet spriteSheet, int x, int y, int width, int height, int health, int speed)
 	{
-		super(name, spriteSheet.getSpriteElement(0, 1), x, y, width, height);
+		super(game, name, spriteSheet, x, y, width, height);
 		this.spriteSheet = spriteSheet;
+		this.level = level;
 		this.health = health;
 		this.speed = speed;
 		xMove = 0;
@@ -37,9 +38,20 @@ public abstract class Creature extends Entity
 	
 	public void move()
 	{		
+		int oldX = entityX;
+		int oldY = entityY;
 		entityX += xMove * speed;
 		entityY += yMove * speed;
 		
+		int[][] touched = level.getTilesTouched(this);
+		for (int i = 0; i < touched.length; i++)
+		{
+			if (Utils.containsBlock(touched))
+			{
+				entityX = oldX;
+				entityY = oldY;
+			}
+		}
 		if (slow++ >= 7)
 		{
 			if (xMove == 0 && yMove == 0)
@@ -92,4 +104,6 @@ public abstract class Creature extends Entity
 		}
 		setEntityImage(image);
 	}
+	
+	
 }
