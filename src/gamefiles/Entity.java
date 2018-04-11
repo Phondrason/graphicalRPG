@@ -28,4 +28,9 @@ public abstract class Entity
 	{
 		g.drawImage(image, entityX, entityY, null);
 	}
+	
+	protected void setEntityImage(BufferedImage image)
+	{
+		this.image = image;
+	}
 }

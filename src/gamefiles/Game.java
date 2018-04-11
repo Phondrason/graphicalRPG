@@ -2,8 +2,8 @@ package gamefiles;
 
 import java.awt.Canvas;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.image.BufferStrategy;
-import java.awt.image.BufferedImage;
 
 public class Game implements Runnable 
 {
@@ -15,6 +15,7 @@ public class Game implements Runnable
 	public Screen screen;
 	Player player;
 	Level level;
+	KeyManager keyManager;
 	
 	BufferStrategy bs;
 	Graphics g;
@@ -32,12 +33,15 @@ public class Game implements Runnable
 	{
 		long timestamp;
 		long oldTimestamp;
+		
 		screen = new Screen("Game", SCREEN_WIDTH, SCREEN_HEIGHT);
+		keyManager = new KeyManager();
+		screen.getFrame().addKeyListener(keyManager);
 		
 		TileSet tileSet = new TileSet("/tiles/rpg.png", 12, 12);
 		level = new Level("/level/Level1.txt", tileSet);
 		SpriteSheet playerSprite = new SpriteSheet("/sprites/player.png", 3, 4, 64, 64);
-		player = new Player(320, 320, playerSprite.getSpriteElement(1, 0));
+		player = new Player(320, 320, playerSprite);
 		
 		while (running)
 		{
@@ -46,12 +50,10 @@ public class Game implements Runnable
 			timestamp = System.currentTimeMillis();
 			if (timestamp-oldTimestamp > maxLoopTime)
 			{
-				System.out.println("Wir sind zu spät!");
 				continue;
 			}
 			render();
 			timestamp = System.currentTimeMillis();
-			System.out.println(maxLoopTime + " : " + (timestamp-oldTimestamp));
 			if (timestamp-oldTimestamp <= maxLoopTime)
 			{
 				try
@@ -68,7 +70,9 @@ public class Game implements Runnable
 	
 	void update()
 	{
-
+		keyManager.update();
+		player.setMove(getInput());
+		player.update();
 	}
 	
 	void render()
@@ -86,5 +90,16 @@ public class Game implements Runnable
 		player.render(g);
 		bs.show();
 		g.dispose();
+	}
+	
+	private Point getInput()
+	{
+		int xMove = 0;
+		int yMove = 0;
+		if (keyManager.up) yMove = -1;
+		if (keyManager.down) yMove = 1;
+		if (keyManager.left) xMove = -1;
+		if (keyManager.right) xMove = 1;
+		return new Point(xMove, yMove);
 	}
 }
